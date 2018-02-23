@@ -1,4 +1,11 @@
-<html>
+<?php	
+include ("conn.php");
+
+	
+	$html;
+	
+	$html = '
+	<html>
 
 	<head>
 	
@@ -21,21 +28,30 @@
     <!-- Customize -->
     <link href="css/cssAux.css" rel="stylesheet">
 	
+	<!--Bibliotecas-->
+	<?php
+		include ("conn.php");
+	?>
+	
 	</head>
 
 	<body>
 
 	<div class="container">
 	
-		<!-- Chama NavBar header -->
+		<!-- Chama NavBar header
 		<div class="col-md-12">
 			<object width="100%" data="components/header.html">
 				<embed width="100%"  height="100%" scr="components/header.html"> </embed>
 			</object>
 		</div>
+		 -->
+		<iframe id="header" width="100%" src="components/header.html" frameborder="0" allowtransparency="true">
+		</iframe>
+		
 		
 		<!-- Conteudo tabela -->
-		<div>
+		<div>	
 		
 			<table class="table">
 				<thead>
@@ -46,13 +62,19 @@
 					</tr>
 					</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-					</tr>
-			  </tbody>
-			  
+	';
+	
+	$query = "select codexercicio, exercicio, obs from exercicio";
+					
+	$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
+	while ($row = mysql_fetch_array( $result_query )) {
+		//echo "teste".$row['codexercicio']; 
+		$html = $html . "<tr><td>".$row['codexercicio']."</td><td>php</td><td></td></tr>";
+	
+	}
+	
+	$html = $html . 
+'			   </tbody>
 			</table>
 			
 			<a class="col-md-8 ocultamobile"></a>
@@ -66,7 +88,7 @@
 			
 				<div class="modal-content col-md-12">
 
-				<form name="frm_cadastroTreino" method="post" action="php/registratreino.php">
+				<form name="frm_cadastroTreino" method="post" action="php/registraexercicio.php">
 
 					<div class="modal-header ">
 						<h3 class="modal-title">Cadastrar Exercício</h3>
@@ -109,3 +131,10 @@
 	</body>
 	
 </html>
+';
+
+echo $html;
+
+
+
+?>
