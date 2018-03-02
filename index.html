@@ -3,105 +3,96 @@
 	<head>
 	
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Gabriel Fernandes">
 	
 	<!-- Descrição -->
 	<!-- WebApp para controle de treinos da academia.  -->
 
-    <title>Treino </title>
+    <title>SAG - Smart Gym Assist</title>
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
-	<script type="text/javascript">	
-		
-		function abreModal(varModal){
-		
-			if(varModal == 'mdexercicio'){
-			
-			$('#mdexercicio').modal('show');
-			}
-			
-		}
-		
-	</script>
-	
-	
-    <!-- Customize -->
+	<!-- Customize -->
     <link href="css/cssAux.css" rel="stylesheet">
+	
+	<script type="text/javascript">			
+		function abreModal(varModal){	
+			if(varModal == 'mdexercicio'){			
+			$('#mdexercicio').modal('show');
+			}			
+		}
+	</script>
 	
 	</head>
 
 	<body>
+		<!-- Chama NavBar header -->
+	<nav class="navbar navbar-inverse">
+  		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>                        
+		  </button>
+		  <a class="navbar-brand" href="index.html">SAG</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<ul class="nav navbar-nav">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="set.php">Set</a></li>
+					<li><a href="exercicio.php">Exercícios</a></li>
+					<li><a href="treino.html">Treinar</a></li>
+				</ul>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Developed by Gabriel Fernandes
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="https://github.com/gfernandes410">Github</a></li>
+						<li><a href="https://www.linkedin.com/in/gabriel-fernandes-04548b99">Linkedin</a></li>
+						<li><a href="www.gfernandes410.com">Site</a></li>
+					</ul>
+				</li>
+			</ul>	  
+		</div>
+	</nav>
 
 	<div class="container">
-	
-		<!-- Chama NavBar header -->
-		<div class="col-md-12">
-			<object width="100%" data="components/header.html">
-				<embed width="100%"  height="100%" scr="components/header.html"> </embed>
-			</object>
-		</div>
-		
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-			  Launch demo modal
-		</button>		
-	
-		
-		<br/><br/>
+	<br/><br/>
 		
 			<!-- Opções da tela -->
 		<div class="row text-center col-xs-12 col-md-12">
 		  <div class="col-xs-12 col-md-4">
-			<a href="set.html" class="thumbnail">
+			<a href="set.php" class="thumbnail">
 				<img src="imgs/test300x300A.png" alt="Erro na imagem :(">
 				<br/>Set
 			</a>
 			</div>
-		
-			<div class="col-xs-12 col-md-4">
-				<a href="treino.html" class="thumbnail">
-					<img src="imgs/test300x300B.png" alt="Erro na imagem :(">
-					<br/>Treino
-				</a>
-			</div>
-							
+									
 			<div class="col-xs-12 col-md-4">
 				<a href="exercicio.php"  class="thumbnail" >
 					<img src="imgs/test300x300C.png" alt="Erro na imagem :(">
-					<br/>Exercicio
+					<br/>Cadastro Exercícios
 				</a>			
 			</div>
-		
-			<input type="button" class="btn btn-primary" data-toggle="modal" value="Salvar" onclick="abreModal('exampleModal')" >
-		
-		</div>
-		
-		<!-- MODAL EXERCICIO -->
-		<div class="modal"  id="mdexercicio" tabindex="1" role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Modal title</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<p>Modal body text goes here.</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">Save changes</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-				</div>
+			
+			<div class="col-xs-12 col-md-4">
+				<a href="treino.html" class="thumbnail">
+					<img src="imgs/test300x300B.png" alt="Erro na imagem :(">
+					<br/>Treinar
+				</a>
 			</div>
+		
 		</div>
+		
 			
 	</div>
 	

@@ -10,7 +10,7 @@
 	<!-- Descrição -->
 	<!-- WebApp para controle de treinos da academia.  -->
 
-    <title>Exercícios</title>
+    <title>Set</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.mim.css" rel="stylesheet">
@@ -70,48 +70,65 @@
 		<!-- Conteudo tabela -->
 		<div>	
 		
+			<a class="col-md-8 ocultamobile"></a>	
+			<input type='button' class='btn btn-primary col-md-4 col-xs-12 btn-lg' value ="Adicionar Set" data-toggle='modal' data-target='#mdaddset'>
+				
+			<br><br><br><br>
+				
 			<table class="table col-xs-12 col-md-12">
 				<thead>
 					<tr>
-					  <th class="col-md-2 col-xs-1">Cod.</th>
-					  <th class="col-md-6 col-xs-9">Exercício</th>
-					  <th class="col-md-4 col-xs-1">Obs</th>
-					  <th class="col-md-4 col-xs-1">Alterar</th>
+					  <th class="col-md-1 col-xs-1">Cod.</th>
+					  <th class="col-md-5 col-xs-7">Nome</th>
+					  <th class="col-md-2 col-xs-1">Data Inicial</th>
+					  <th class="col-md-2 col-xs-1">Data Final</th>
+					  <th class="col-md-1 col-xs-1">Status</th>
+					  <th class="col-md-1 col-xs-1"></th>
 					</tr>
 					</thead>
 				<tbody>
 	<?php
+	$query = "select id, nome, datainicial, datafinal, ativo from settreino";
 	
-	$query = "select codexercicio, exercicio, obs from exercicio";
-					
 	$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
-		while ($row = mysql_fetch_array( $result_query )) {
+		while ($row = mysql_fetch_array( $result_query )) {			
+			echo  	"<form name='frm_editaSet' method='post' action='saveSet.php'>
+					 <tr><td>".$row['id'].
+					" <input type='hidden' class='form-control' id='ipt_id' name='ipt_id' value='".$row['id'].
+					"'></td><td>".$row['nome'].
+					"</td><td>".$row['datainicial'].
+					"</td><td>".$row['datafinal'];
+			if($row['ativo'] == 'A') {
+				echo	"</td><td>Ativo";
+			} else {
+				echo	"</td><td>Inativo";
+			}
 			
-			$codexerc  = ltrim($row['codexercicio'], '0');
-			
-			echo  "<tr><td>".$codexerc."</td><td>".$row['exercicio']."</td><td>".$row['obs']."</td>
-			<th class='col-md-4 col-xs-1'><input type='button' class='btn btn-primary col-md-12 col-xs-12'data-toggle='modal' data-target='#mdexercicio' data-cod=' ".$row['codexercicio']."' data-exercicio='".$row['exercicio'] ."' data-obs='".$row['obs'] ."' value='Editar' ></th>
-			</tr>";
+			echo	"</td><th class='col-md-1 col-xs-1'>
+						<button type='submit' class='btn btn-primary col-xs-12 col-md-12'>Editar</button>
+					</th>
+			</tr>
+			</form>
+			";
 		}
 	?>
 		   </tbody>
 			</table>
 			
-			<a class="col-md-8 ocultamobile"></a>
-			<input type="button" class="btn btn-primary col-md-4 col-xs-12" data-toggle="modal" value="Adicionar Exercício"  data-target="#mdexercicio">
+			
 		
 		</div>
 				
 		<!-- CADASTRA MODAL -->
-		<div class="modal"  id="mdexercicio" role="dialog">
+		<div class="modal"  id="mdaddset" role="dialog">
 			<div class="modal-dialog" role="document">
 			
 				<div class="modal-content col-md-12">
 
-				<form name="frm_cadastroTreino" method="post" action="php/registraexercicio.php">
+				<form name="frm_novoSet" method="post" action="php/novoSet.php">
 
 					<div class="modal-header ">
-						<h3 class="modal-title">Cadastrar Exercício</h3>
+						<h3 class="modal-title">Cadastrar Set</h3>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -121,18 +138,12 @@
 
 						<!-- INPUT NOME -->
 						<div class="form-group col-xs-12 col-md-12">
-							<label for="ipt_exercicio">Nome</label>
-							<input type="text" class="form-control" id="ipt_exercicio"  name="ipt_exercicio" placeholder="Nome do exercicio">
+							<label for="ipt_nome">Nome do novo SET</label>
+							<input type="text" class="form-control" id="ipt_nome"  name="ipt_nome" placeholder="Nome do Set">
 						</div>
-					
-						<!-- INPUT OBS -->
-						<div class="form-group col-xs-12 col-md-12">
-							<label for="ipt_obs">Observação</label>
-							<input type="text" class="form-control" id="ipt_obs" name="ipt_obs" placeholder="Observações">
-						</div> 				
-
+						
 					</div>
-
+					
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary col-xs-12 col-md-5">Salvar</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -161,20 +172,14 @@
 			  var exercicio = button.data("exercicio") // Extract info from data-* attributes
 			  var obs = button.data("obs") // Extract info from data-* attributes
 			  			  		  		
+			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+			  // Update the modal"s content. We"ll use jQuery here, but you could use a data binding library or other methods instead.
 			  var modal = $(this)
 			  modal.find(".modal-title").text("Alterar Exercício - " + exercicio)
 			  modal.find("#ipt_exercicio").val(exercicio)
 			  modal.find("#ipt_obs").val(obs)
 			  modal.find("#ipt_cod").val(cod)
 			})	
-			
-			function maskCodExercicio(cod){
-				var n_char = cod.value.length;
-				
-				alert(cod.value);
-				
-			}
-			
 	</script>
 	
 </html>
