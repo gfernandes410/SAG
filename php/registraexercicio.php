@@ -17,24 +17,25 @@ $query = "select 1 from exercicio where codexercicio = '";
 $query =  $query . $ipt_cod ."'";
 $result_query = mysql_query( $query );
 
-	if ($row = mysql_fetch_array( $result_query )){
+
+
+	if ($row = mysql_fetch_array( $result_query ) <> ""){
 		$query = "UPDATE exercicio set exercicio = '";		
 		$query = $query . $ipt_exercicio . "', obs = '";
 		$query = $query . $ipt_obs . "' where codexercicio = ";
-		$query = $query . $ipt_cod;
-			
-		mysql_query($query); 
+		$query = $query . $ipt_cod;		mysql_query($query); 
 		
 	} else {
 		$query = "INSERT INTO exercicio (
-				  // `exercicio`,	
+				  `exercicio`,	
 				  `obs`,`datahora`) VALUES ( '" ;
 
 		$query = $query . $ipt_exercicio  . "','";
 		$query = $query . $ipt_obs . "','";
 		$query = $query . $datahora . "')";
+		mysql_query($query);
 		
-		mysql_query($query); 
-}
+	}
+
 header("Location: ../exercicio.php");
 ?>

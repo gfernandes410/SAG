@@ -46,7 +46,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li><a href="set.php">Set</a></li>
 					<li><a href="exercicio.php">Exercícios</a></li>
-					<li><a href="treino.html">Treinar</a></li>
+					<li><a href="treino.php">Treino</a></li>
 				</ul>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -92,7 +92,7 @@
 	
 	$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
 		while ($row = mysql_fetch_array( $result_query )) {			
-			echo  	"<form name='frm_editaSet' method='post' action='saveSet.php'>
+			echo  	"<form name='frm_editaSet' method='post' action='saveSet.php?ipt_id=".$row['id']."'>
 					 <tr><td>".$row['id'].
 					" <input type='hidden' class='form-control' id='ipt_id' name='ipt_id' value='".$row['id'].
 					"'></td><td>".$row['nome'].
@@ -114,7 +114,7 @@
 	?>
 		   </tbody>
 			</table>
-			
+		
 			
 		
 		</div>

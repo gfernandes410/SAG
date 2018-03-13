@@ -45,7 +45,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li><a href="set.php">Set</a></li>
 					<li><a href="exercicio.php">Exercícios</a></li>
-					<li><a href="treino.html">Treinar</a></li>
+					<li><a href="treino.php">Treino</a></li>
 				</ul>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -71,40 +71,42 @@
 			<div class="form-group col-xs-12 col-lg-4">
 				<label for="ipt_nome">
 				<?php
-				$ipt_id = $_POST['ipt_id'];			
+				
+				$ipt_id = $_GET['ipt_id'];												
 		
 				$query = "select nome, datainicial, datafinal, ativo, obs from settreino where id =" . $ipt_id;
 				$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
 				$row = mysql_fetch_array( $result_query );
 				
 				echo "	Nome SET</label>
-				<input type='text' class='form-control' id='ipt_nome' readonly='readonly' value ='"  . $row['nome'] . "'>
+				<input type='text' class='form-control' id='ipt_nome' name='ipt_nome' readonly='readonly' value ='"  . $row['nome'] . "'>
 			</div>"  ;
 			
 				echo "
 					<div class='form-group col-xs-12 col-lg-4'>
 						<label for='ipt_dtinicial'>Data Inicial</label>
-						<input type='date' class='form-control' id='ipt_nome' value  = '". $row['datainicial'] ."'>
+						<input type='date' class='form-control' id='ipt_datainicial' name='ipt_datainicial' value  = '". $row['datainicial'] ."'>
 					</div>
 			
 					<div class='form-group col-xs-12 col-lg-4'>
 						<label for='ipt_dtfinal'>Data Final</label>
-						<input type='date' class='form-control' id='ipt_nome' value  = '". $row['datafinal'] ."'>
+						<input type='date' class='form-control' id='ipt_datafinal' name='ipt_datafinal' value  = '". $row['datafinal'] ."'>
 					</div>
 
 					<div class='form-group col-xs-12 col-lg-12'>
 						<label for='ipt_obs'>Observação</label>
-						<textarea rows='2' class='form-control' id='ipt_nome'>". $row['obs'] ." </textarea>
+						<textarea rows='2' class='form-control' id='ipt_obs' name='ipt_obs'>". $row['obs'] ." </textarea>
 					</div>
 					
 					<div class='form-group col-xs-12 col-lg-12 custom-checkbox'>
-						<input type='checkbox' class='custom-control-input' id='ipt_ativo' ";
+						<input type='checkbox' class='custom-control-input' id='ipt_ativo' name='ipt_ativo' ";
 						if ($row['ativo']=='A'){
 							echo "checked";
 						}
 					echo	">
 						<label class='custom-control-label' for='customCheck1'>Treino Ativo</label>
 					</div>
+					<input type='hidden' class='custom-control-input' id='ipt_id' name='ipt_id' value='".$ipt_id  ."'>
 				"
 		
 				
@@ -123,11 +125,11 @@
 					</thead>
 				<tbody>
 			
-			
-			
+			<div id='txtHint'></div>
+			</form>
 			<?php
 			
-				$ipt_id = $_POST['ipt_id'];	
+				$ipt_id = $_GET['ipt_id'];	
 	
 				$query = "select treino1, treino2, treino3, treino4, treino5, treino6, treino7 from settreino where id =" . $ipt_id;
 				$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
@@ -188,12 +190,18 @@
 							<th class='col-md-2 col-xs-2'>". $row['treino1']. "</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino1 ."</th> ";
 				if ($row['treino1'] == ''){
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+					echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino1' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='1'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino1.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino1'] . ")'> 
 							</th>";
 					};
 				echo "</tr>";						
@@ -203,27 +211,39 @@
 							<th class='col-md-2 col-xs-2'>". $row['treino2']."</th>
 							<th class='col-md-7 col-xs-7'>". $nomeTreino2 ."</th>";
 				if ($row['treino2'] == ''){
-						echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+						echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino2' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='2'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino2.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino2'] . ")'> 
 							</th>";
 					};
-				echo "</tr>";			
+				echo "</tr>";		
 						
 				echo "	<tr>
 							<th class='col-md-1 col-xs-1'> Treino 3</th>
 							<th class='col-md-2 col-xs-2'>". $row['treino3']."</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino3 ."</th>";
 				if ($row['treino3'] == ''){			
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+					echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino3' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='3'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino3.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino3'] . ")'> 
 							</th>";
 					};
 				echo "</tr>";		
@@ -234,42 +254,60 @@
 							<th class='col-md-2 col-xs-2'>". $row['treino4']."</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino4 ."</th>";
 				if ($row['treino4'] == ''){			
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
-				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<form name='frm_addTreino4' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='4'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino4.submit()'></span>
+						
+							</form>
+							</th>";
+				}  else{
+					echo	"<th class='col-md-1 col-xs-1'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino4'] . ")'> 
 							</th>";
 					};
-				echo "</tr>";		
+				echo "</tr>";	
 						
 				echo "	<tr>
 							<th class='col-md-1 col-xs-1'> Treino 5</th>
 							<th class='col-md-2 col-xs-2'>". $row['treino5']."</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino5 ."</th>";
 				if ($row['treino5'] == ''){			
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+					echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino5' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='5'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino5.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino5'] . ")'> 
 							</th>";
 					};
-				echo "</tr>";		
+				echo "</tr>";	
 						
 				echo "	<tr>
 							<th class='col-md-1 col-xs-1'> Treino 6</th>
 							<th class='col-md-2 col-xs-2'>". $row['treino6']."</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino6 ."</th>";
 				if ($row['treino6'] == ''){			
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+					echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino6' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='6'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino6.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino6'] . ")'> 
 							</th>";
 					};
 				echo "</tr>";		
@@ -279,26 +317,25 @@
 							<th class='col-md-2 col-xs-2'>". $row['treino7']."</th>
 							<th class='col-md-7	 col-xs-7'>". $nomeTreino7 ."</th>";
 				if ($row['treino7'] == ''){			
-					echo	"<th class='col-md-1 col-xs-1'>					
-					<span class='glyphicon glyphicon-plus' data-toggle='modal' data-target='#mdaddTreino'></span>				
-					</th>";
+					echo	"<th class='col-md-1 col-xs-1'>
+							<form name='frm_addTreino7' method='post' action='alteratreino.php'>
+							
+								<input type='hidden' class='custom-control-input' id='ipt_idSet' name='ipt_idSet' value='". $ipt_id  ."'>
+								<input type='hidden' class='custom-control-input' id='ipt_idTreino' name='ipt_idTreino' value='7'>
+								<span class='glyphicon glyphicon-plus' data-toggle='modal' onClick='document.frm_addTreino7.submit()'></span>
+						
+							</form>
+							</th>";
 				} else{
 					echo	"<th class='col-md-1 col-xs-1'>
-							<span class='glyphicon glyphicon-search'  data-toggle='modal' data-target='#mdverTreino'>
-							</th>
-							
-							
-							
-							
-							";
+							<span class='glyphicon glyphicon-search'  onclick='showTreino(". $row['treino7'] . ")'> 
+							</th>";
 					};
-				
-				
-				echo "</tr>
-						</tr>
+				echo "</tr>		
+						
 				
 				</tbody>
-				
+			 
 				
 				<table class='table col-xs-12 col-md-12'>
 				<thead>
@@ -308,110 +345,54 @@
 				?>
 						</th>
 						<th class="col-md-4 col-xs-4"> </th>
-						<th class='col-md-5 col-xs-5'> <button type="submit" class="btn btn-primary col-xs-12 col-md-12">Salvar</button> </th>
+						<th class='col-md-5 col-xs-5'>
+							<input type="button" onClick="document.frm_cadastroSet.submit()" value="Salvar"  class="btn btn-primary col-xs-12 col-md-12"></input> 
+						</th>
 						
 					</tr>
 					</thead>
 				<tbody>
 				
 				</tbody>
-			
-			
-
-		</form>
 		
-		<!-- INICIA MODAL ADD TREINO -->
-		<div class="modal"  id="mdaddTreino" role="dialog">
-			<div class="modal-dialog" role="document">			
-				<div class="modal-content col-md-12">
-				<form name="frm_cadastroTreino" method="post" action="php/registraexercicio.php">
-					<div class="modal-header ">
-						<h3 class="modal-title">Cadastrar Exercício</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body col-md-12">
-					ADD TREINO
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary col-xs-5 col-md-5">Salvar</button>
-						<button type="button" class="btn btn-secondary  col-xs-5 col-md-5" data-dismiss="modal">Cancelar</button>
-					</div>
-					<input type="hidden" name="ipt_cod" id="ipt_cod">
-				</form>
-				</div>
-			</div>			
-		</div>
-		<!-- FIM MODAL ADD TREINO -->
 		
-		<!-- INICIA MODAL VER TREINO -->
-		<div class="modal"  id="mdverTreino" role="dialog">
-			<div class="modal-dialog" role="document">			
-				<div class="modal-content col-md-12">
-				
-					<div class="modal-header ">
-						<h3 class="modal-title">Cadastrar Exercício</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body col-md-12">
-					<?php echo $nomeTreino1; ?>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary  col-xs-5 col-md-5">Salvar</button>
-						<button type="button" class="btn btn-secondary  col-xs-5 col-md-5" data-dismiss="modal">Cancelar</button>
-					</div>
-					<input type="hidden" name="ipt_cod" id="ipt_cod">
-				
-				</div>
-			</div>			
-		</div>
-		<!-- FIM MODAL VER TREINO -->
-		
-		<!-- Excluir  SET -->
-			<div class="modal"  id="mdexcluirset" role="dialog">
-			<div class="modal-dialog" role="document">			
-				<div class="modal-content col-md-12">
-				<form name="frm_cadastroTreino" method="post" action="php/registraexercicio.php">
-					<div class="modal-header ">
-						<h3 class="modal-title">Cadastrar Exercício</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body col-md-12">
-					ver TREINO
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary  col-xs-5 col-md-5">Salvar</button>
-						<button type="button" class="btn btn-secondary  col-xs-5 col-md-5" data-dismiss="modal">Cancelar</button>
-					</div>
-					<input type="hidden" name="ipt_cod" id="ipt_cod">
-				</form>
-				</div>
-			</div>			
-		</div>
-		<!-- FIM MODAL ADD TREINO -->
 		
 	
-		
 	</div>
 	
 	<br><br>
 	
 	</body>
-	
-	<script type="text/javascript">
-			$("#mdExcluissrSet").on("show.bs.modal", function (event) {
-			  var button = $(event.relatedTarget) // Button that triggered the modal
-			  var cod = button.data("cod") // Extract info from data-* attributes
-			  			  		  		
-			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-			  // Update the modal"s content. We"ll use jQuery here, but you could use a data binding library or other methods instead.
-			  var modal = $(this)
-			  modal.find(".modal-title").text("Deseja excluior o SET " + codTreino + "?")
-			  modal.find("#txt_codSet").val(codTreino)
-			})	
+		<script type="text/javascript">
+					
+		function showTreino(str) {
+			if(document.getElementById("txtHint").style.visibility == "hidden"){
+				document.getElementById("txtHint").style.visibility = "visible";
+				
+				if (window.XMLHttpRequest) {
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+					
+				} else {
+					// code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("txtHint").innerHTML = this.responseText;
+					}
+				};
+				xmlhttp.open("GET","php/getTreino.php?q="+str,true);
+				xmlhttp.send();				
+}
+			else{
+				document.getElementById("txtHint").style.visibility = "hidden";
+				document.getElementById("txtHint").innerHTML = "";
+				return;
+			}
+
+			
+}
 	</script>
 	
 </html>

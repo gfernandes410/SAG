@@ -1,37 +1,37 @@
-<html>
+	<html>
 
 	<head>
 	
 	<meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Gabriel Fernandes">
 	
 	<!-- Descrição -->
 	<!-- WebApp para controle de treinos da academia.  -->
 
-    <title>SAG - Smart Gym Assist</title>
+    <title>Exercícios</title>
 
     <!-- Bootstrap CSS -->
+   
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
-	<!-- Customize -->
-    <link href="css/cssAux.css" rel="stylesheet">
+    <!-- Customize -->
+    <link href="../css/cssAux.css" rel="stylesheet">
 	
-	<script type="text/javascript">			
-		function abreModal(varModal){	
-			if(varModal == 'mdexercicio'){			
-			$('#mdexercicio').modal('show');
-			}			
-		}
-	</script>
+	<!--Bibliotecas-->
+	<?php
+		error_reporting (E_ALL & ~ E_DEPRECATED);
+		include ("conn.php");	
+		include ("functions.php");	
+	?>
 	
 	</head>
 
 	<body>
-		<!-- Chama NavBar header -->
+	
 	<nav class="navbar navbar-inverse">
   		<div class="navbar-header">
 		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -44,10 +44,10 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 				<ul class="nav navbar-nav">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="set.php">Set</a></li>
-					<li><a href="exercicio.php">Exercícios</a></li>
-					<li><a href="treino.php">Treino</a></li>
+					<li><a href="../index.html">Home</a></li>
+					<li><a href="../set.php">Set</a></li>
+					<li><a href="../exercicio.php">Exercícios</a></li>
+					<li><a href="../treino.php">Treino</a></li>
 				</ul>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -61,41 +61,54 @@
 						<li><a href="www.gfernandes410.com">Site</a></li>
 					</ul>
 				</li>
-			</ul>	  
+			</ul>
+	  
 		</div>
 	</nav>
 
 	<div class="container">
-	<br/><br/>
 		
-			<!-- Opções da tela -->
-		<div class="row text-center col-xs-12 col-md-12">
-		  <div class="col-xs-12 col-md-4">
-			<a href="set.php" class="thumbnail">
-				<img src="imgs/test300x300A.png" alt="Erro na imagem :(">
-				<br/>Set
-			</a>
-			</div>
-									
-			<div class="col-xs-12 col-md-4">
-				<a href="exercicio.php"  class="thumbnail" >
-					<img src="imgs/test300x300C.png" alt="Erro na imagem :(">
-					<br/>Cadastro Exercícios
-				</a>			
-			</div>
+		<!-- Conteudo tabela -->
+		<div>	
+		
+			<table class="table col-xs-12 col-md-12">
+				<thead>
+					<tr>
+					  <th class="col-md-2 col-xs-1">Cod.</th>
+					  <th class="col-md-6 col-xs-9">Exercício</th>
+					  <th class="col-md-4 col-xs-1"></th>
+					</tr>
+					</thead>
+				<tbody>
+				<?php
+				
+				$var_codTreino = $_GET['codTreino'];
+				
+				$query = "select codexercicio, exercicio, obs from exercicio";
+								
+				$result_query = mysql_query( $query ) or die(' Erro na query: ' . $query . ' ' . mysql_error() ); 
+					while ($row = mysql_fetch_array( $result_query )) {
+						
+						$codexerc  = ltrim($row['codexercicio'], '0');
+						
+						echo  "	<tr><td>".$codexerc."</td>
+								<td>".$row['exercicio']."</td>
+								<td class='col-md-4 col-xs-1'>
+								<a href='../registraTreino	.php?codTreino=".$var_codTreino."&codExerc=".$codexerc."' class='btn btn-primary col-md-12 col-xs-1'>Adicionar Exercício</a>
+								</td>
+						</tr>";
+					}
+				?>
+		   </tbody>
+			</table>
 			
-			<div class="col-xs-12 col-md-4">
-				<a href="treino.php" class="thumbnail">
-					<img src="imgs/test300x300B.png" alt="Erro na imagem :(">
-					<br/>Treino
-				</a>
-			</div>
-		
 		</div>
+				
+
 		
-			
 	</div>
-	
+		<br><br>	
 	</body>
+	
 	
 </html>

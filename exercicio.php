@@ -25,6 +25,7 @@
 	<?php
 		error_reporting (E_ALL & ~ E_DEPRECATED);
 		include ("php/conn.php");	
+		include ("php/functions.php");	
 	?>
 	
 	</head>
@@ -46,7 +47,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li><a href="set.php">Set</a></li>
 					<li><a href="exercicio.php">Exercícios</a></li>
-					<li><a href="treino.html">Treinar</a></li>
+					<li><a href="treino.php">Treino</a></li>
 				</ul>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -129,16 +130,17 @@
 						<div class="form-group col-xs-12 col-md-12">
 							<label for="ipt_obs">Observação</label>
 							<input type="text" class="form-control" id="ipt_obs" name="ipt_obs" placeholder="Observações">
+							<input type="hidden" class="form-control" id="ipt_cod" name="ipt_cod" >
 						</div> 				
-
+						
 					</div>
-
+	
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary col-xs-12 col-md-5">Salvar</button>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
 					</div>
 					
-					<input type="hidden" name="ipt_cod" id="ipt_cod">
+						
 
 				</form>
 
@@ -167,14 +169,7 @@
 			  modal.find("#ipt_obs").val(obs)
 			  modal.find("#ipt_cod").val(cod)
 			})	
-			
-			function maskCodExercicio(cod){
-				var n_char = cod.value.length;
-				
-				alert(cod.value);
-				
-			}
-			
+		
 	</script>
 	
 </html>
